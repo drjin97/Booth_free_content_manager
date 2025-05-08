@@ -28,7 +28,7 @@ jobs:
     - name: Build executable
       run: |
         cd booth_manager
-        pyinstaller --name="BoothDownloader" --windowed --onefile --icon="favicon.ico" main.py
+        pyinstaller --name="BoothDownloader" --windowed --onefile main.py
         
     - name: Upload artifact
       uses: actions/upload-artifact@v3
