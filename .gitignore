@@ -130,3 +130,39 @@ dmypy.json
 
 # Booth Downloader specific
 booth_cookie.txt
+
+# Virtual Environment
+venv/
+ENV/
+env/
+.env/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Logs
+*.log
+logs/
+
+# Local development settings
+.env
+.env.local
+.env.*.local
+
+# PyInstaller
+*.spec
+build/
+dist/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini

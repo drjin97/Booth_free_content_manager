@@ -140,7 +140,14 @@ class BoothManager(QMainWindow):
         thread_pool.setMaxThreadCount(max_threads)
         logger.info(f"스레드 풀 초기화: 최대 {max_threads}개 스레드")
 
-        script_dir = os.path.dirname(os.path.abspath(__file__))
+        # 실행 파일 경로 처리
+        if getattr(sys, 'frozen', False):
+            # PyInstaller로 빌드된 경우
+            script_dir = os.path.dirname(sys.executable)
+        else:
+            # 일반 Python 스크립트로 실행된 경우
+            script_dir = os.path.dirname(os.path.abspath(__file__))
+            
         self.base_path = script_dir
         logger.info(f"Base path set to: {self.base_path}")
 

@@ -5,33 +5,32 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
-  workflow_dispatch:
 
 jobs:
   build:
     runs-on: windows-latest
     
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v2
     
     - name: Set up Python
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v2
       with:
-        python-version: '3.10'
+        python-version: '3.9'
         
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install -r booth_manager/requirements.txt
-        pip install pyinstaller
+        pip install PyInstaller
+        pip install PySide6
+        pip install -r requirements.txt
         
     - name: Build executable
       run: |
-        cd booth_manager
-        pyinstaller --name="BoothDownloader" --windowed --onefile main.py
+        pyinstaller booth_manager.spec
         
     - name: Upload artifact
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v2
       with:
-        name: BoothDownloader
-        path: booth_manager/dist/BoothDownloader.exe
+        name: HakkaCrawler
+        path: dist/HakkaCrawler.exe

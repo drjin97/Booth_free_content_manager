@@ -661,7 +661,15 @@ class DownloaderWidget(QWidget): # BoothDownloader(QMainWindow)에서 변경
         # self.setWindowTitle("부스 다운로더") # 더 이상 창 제목 설정 안 함
         # self.setMinimumSize(600, 400) # 크기는 부모 레이아웃에서 관리
         self.base_path = base_path # 다운로드를 위한 기본 경로 저장
-        self.cookie_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), "booth_cookie.txt") # 절대 경로로 변경
+        
+        # 쿠키 파일 경로 설정
+        if getattr(sys, 'frozen', False):
+            # PyInstaller로 빌드된 경우
+            self.cookie_file = os.path.join(os.path.dirname(sys.executable), "booth_cookie.txt")
+        else:
+            # 일반 Python 스크립트로 실행된 경우
+            self.cookie_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), "booth_cookie.txt")
+            
         self.url_scroll = None  # 스크롤 영역을 클래스 멤버 변수로 저장
         self.setup_ui()
         self.batch_mode = False # 일괄 입력 모드 플래그
