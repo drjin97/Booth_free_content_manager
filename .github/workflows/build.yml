@@ -1,48 +1,35 @@
-name: Build Windows Executable
+name: Build Executable
 
 on:
   push:
     branches: [ main ]
-  pull_request:
-    branches: [ main ]
+  workflow_dispatch:
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: macos-latest
     
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v3
     
     - name: Set up Python
-      uses: actions/setup-python@v5
+      uses: actions/setup-python@v4
       with:
         python-version: '3.9'
-    
+        
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
         pip install pyinstaller
-    
-    - name: List files
-      run: |
-        dir
-        dir booth_manager
-    
+        
     - name: Build with PyInstaller
-      working-directory: ${{ github.workspace }}
       run: |
-        $specFile = Join-Path $env:GITHUB_WORKSPACE "booth_manager.spec"
-        if (Test-Path $specFile) {
-          Write-Host "Spec file found at: $specFile"
-          pyinstaller --clean $specFile
-        } else {
-          Write-Host "Spec file not found at: $specFile"
-          exit 1
-        }
-    
+        cd booth_manager_backup
+        pyinstaller --onefile --windowed --name "HakkaCrawler" main.py
+        
     - name: Upload artifact
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v3
       with:
         name: HakkaCrawler
-        path: dist/HakkaCrawler.exe
+        path: booth_manager_backup/dist/HakkaCrawler
