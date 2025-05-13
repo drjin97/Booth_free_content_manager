@@ -25,8 +25,9 @@ jobs:
         pip install pyinstaller
     
     - name: Build with PyInstaller
+      working-directory: ${{ github.workspace }}
       run: |
-        pyinstaller booth_manager.spec --clean
+        pyinstaller --clean booth_manager.spec
     
     - name: Upload artifact
       uses: actions/upload-artifact@v4
