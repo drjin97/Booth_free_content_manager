@@ -24,10 +24,22 @@ jobs:
         pip install -r requirements.txt
         pip install pyinstaller
     
+    - name: List files
+      run: |
+        dir
+        dir booth_manager
+    
     - name: Build with PyInstaller
       working-directory: ${{ github.workspace }}
       run: |
-        pyinstaller --clean booth_manager.spec
+        $specFile = Join-Path $env:GITHUB_WORKSPACE "booth_manager.spec"
+        if (Test-Path $specFile) {
+          Write-Host "Spec file found at: $specFile"
+          pyinstaller --clean $specFile
+        } else {
+          Write-Host "Spec file not found at: $specFile"
+          exit 1
+        }
     
     - name: Upload artifact
       uses: actions/upload-artifact@v4
